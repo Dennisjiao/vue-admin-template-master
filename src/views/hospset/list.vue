@@ -12,6 +12,10 @@
     <el-button type="default" @click="resetData()">清空</el-button>
     </el-form>
 
+    <!-- 工具条 -->
+    <div>
+        <el-button type="danger" size="mini" @click="removeRows()">批量删除</el-button>
+    </div>
 
 
 
@@ -19,6 +23,9 @@
         :data="list"
         stripe
             style="width: 100%">
+
+        <el-table:data="list" stripe style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55"/>
 
         <el-table-column type="index" width="50"/>
         <el-table-column prop="hosname" label="医院名称"/>
@@ -31,6 +38,12 @@
                 {{ scope.row.status === 1 ? '可用' : '不可用' }}
         </template>
         </el-table-column>
+            <el-table-column label="操作" width="280" align="center">
+                <template slot-scope="scope">
+                    <el-button type="danger" size="mini" 
+                    icon="el-icon-delete" @click="removeDataById(scope.row.id)"> </el-button>
+                </template>
+            </el-table-column>
         </el-table>
 
         <!-- 分页 -->
@@ -44,9 +57,9 @@
         />
 
     </div>
-</template>
+      </template>
 
-  </div>
+    </div>
 </template>
 
 <script>
@@ -67,7 +80,8 @@ export default{
             limit:3,//每页显示记录数
             searchObj:{},//条件封装对象
             list:[],//每页数据集合
-            total:0 //总记录数
+            total:0, //总记录数
+            multipleSelection:[] //批量选择中的数据
         }
     },
     created(){//在渲染之前执行
@@ -76,6 +90,12 @@ export default{
     },
 
     methods:{
+
+        //获取选择复选框的id值
+        handleSelectionChange(selection){
+            this.multipleSelection = selection
+            //console.log(selection)
+        },
         //定义方法，进行请求接口调用
         getList(page = 1){//添加当前页
             this.current = page
@@ -85,12 +105,72 @@ export default{
                     this.list = response.data.records
                     //总记录数
                     this.total = response.data.total
-                    console.log(response)  
+                    //console.log(response)  
                 })//请求成功
                 .catch(error =>{
-                    console.log(error)
+                    //console.log(error)
                 })//请求失败
-        }
+        },
+
+        //删除医院设置的方法
+        removeDataById(id){
+            //alert(id)
+        this.$confirm('此操作将永久删除医院设置信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定执行then方法
+            //调用接口
+            hospset.deleteHospSet(id)
+                .then(response =>{
+                    //提示信息
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    //并页面自刷新
+                    this.getList(1)
+                })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+            //Shospset.deleteHospSet(id)
+        },
+
+        //批量删除
+        removeRows(){
+            this.$confirm('此操作将永久删除医院是设置信息, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => { //确定执行then方法
+                
+                var idList = []
+                //遍历数组，得到每个id值，再设置到idList中
+                for(var i=0;i<this.multipleSelection.length;i++){
+                    var obj =this.multipleSelection[i]
+                    var id =obj.id
+                    idList.push(id)
+                }
+
+                console.log(idList)
+                
+                //调用接口
+                hospset.batchRemoveHospSet(idList)
+                .then(response => {
+                        //提示
+                        this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                        })
+                        //刷新页面
+                        this.getList(1)
+                })
+            })
+        },
     }
 }
 </script>
