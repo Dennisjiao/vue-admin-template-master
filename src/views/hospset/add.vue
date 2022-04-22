@@ -40,6 +40,9 @@ export default {
         if(this.$route.params && this.$route.params.id){
             const id = this.$route.params.id
             this.getHostSet(id)
+        }else{
+            //表单数据清空
+            this.hospitalSet = {}
         }
     },
 
