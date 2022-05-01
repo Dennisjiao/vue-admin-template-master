@@ -2,6 +2,15 @@
     <!--:data表示查出来的数据 :load表示点击数据前箭头，下面显示二级数据
      :tree-props树的属性值，通过这个判断哈希中是true还是false，如果true就显示-->
      <div class="app-container">
+         <div class="el-toolbar">
+            <div class="el-toolbar-body" style="justify-content: flex-start;">
+                <a href="http://localhost:8081/admin/cmn/dict/exportData" target="_blank"> <!--开个新的标签页，用户体验好一些-->
+                    <el-button type="text"><i class="fa fa-plus"/> 导出</el-button>
+                </a>
+            <!-- <el-button type="text" @click="exportData"><i class="fa fa-plus"/> 导出</el-button> -->
+            </div>
+        </div>
+
         <el-table
         
             :data="list" style="width: 100%" row-key="id" border lazy
@@ -51,6 +60,16 @@ export default {
     },
 
     methods: {
+        //导出数据字典
+        //直接调用接口就可以了，因为不用返回值
+        exportData(){
+            //调用导出接口
+            window.location.href="http://localhost:8081/admin/cmn/dict/exportData"
+        },
+
+
+
+
         //数据字典列表
         getDictList(id){
             dict.dictList(id)
