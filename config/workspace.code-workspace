@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\Microsoft VS Code Save"
+		},
+		{
+			"path": "..\\..\\vscodedemo"
+		},
+		{
+			"path": "..\\..\\vuetest"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "vscodedemo"
+	}
+}
