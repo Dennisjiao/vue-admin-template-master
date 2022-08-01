@@ -41,8 +41,8 @@ export const constantRouterMap = [
     path: '/hospSet',
     component: Layout,
     redirect: '/example/table',
-    name: '医院设置管理',
-    meta: { title: '医院设置管理', icon: 'example' },
+    name: 'Main Page',//医院设置管理
+    meta: { title: 'Main Page', icon: 'example' },
     children: [
       {
         path: 'list',
@@ -92,9 +92,9 @@ export const constantRouterMap = [
     path: '/cmn',
     component: Layout,
     redirect: '/cmn/list',
-    name: '数据管理',
+    name: 'Sort Algorithm',//数据管理
     alwaysShow:true,
-    meta: { title: '数据管理', icon: 'example' },
+    meta: { title: 'Sort Algorithm', icon: 'example' },
     children: [
       {
         path: 'list',

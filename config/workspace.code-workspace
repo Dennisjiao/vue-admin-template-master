@@ -17,6 +17,12 @@
 		},
 		{
 			"path": "..\\..\\VueProject"
+		},
+		{
+			"path": "..\\..\\vue-Algorithm"
+		},
+		{
+			"path": "..\\..\\bubble-sort-visualizer"
 		}
 	],
 	"settings": {
